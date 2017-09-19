@@ -3,8 +3,10 @@ package com.example.nicolas.drapeaux.db.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 @DatabaseTable(tableName = "bind")
-public class Bind {
+public class Bind implements Serializable {
 
     @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true, uniqueCombo = true)
     private Country country;

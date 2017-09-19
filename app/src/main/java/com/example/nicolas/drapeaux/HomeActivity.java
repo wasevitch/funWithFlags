@@ -3,10 +3,12 @@ package com.example.nicolas.drapeaux;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,11 @@ import android.util.Log;
 import com.example.nicolas.drapeaux.db.model.Country;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.j256.ormlite.android.AndroidConnectionSource;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -24,21 +31,28 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 class HttpHandler extends Handler {
 
     private HomeActivity homeActivity;
+    private DatabaseController databaseController;
 
     public HttpHandler(HomeActivity homeActivity) {
         this.homeActivity = homeActivity;
+        databaseController = homeActivity.getDatabaseController();
     }
 
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
 
+    }
+
+    public DatabaseController getDatabaseController() {
+        return databaseController;
     }
 }
 
@@ -108,9 +122,18 @@ class HttpThread extends Thread {
                 countries.add(country);
             }
 
+            Dao<Country, String> daoCountry = httpHandler.getDatabaseController().getDatabaseHelper().getDao(Country.class);
+
+            daoCountry.create(countries);
+
+            Log.i("flagDatabase", "Size : " + daoCountry.countOf());
+            Log.i("flagDatabase", daoCountry.queryForId("France").toString());
+
             Log.i("Super", "rigolo");
         } catch(IOException e) {
             Log.i("flagDatabase", "Exception :" + e.getLocalizedMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             Log.i("flagDatabase", "Finished!");
         }
@@ -121,15 +144,19 @@ public class HomeActivity extends AppCompatActivity {
 
     SharedPreferences prefs = null;
 
+    DatabaseController databaseController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //prefs = getSharedPreferences("com.example.nicolas.drapeaux", MODE_PRIVATE);
-        checkPermissions();
-        initDatabase();
-        checkFirstRun();
+        if(checkPermissions()) {
+            initDatabase();
+            checkFirstRun();
+        } else {
+            Log.i("Error", "No permission, cannot download country flags");
+        }
     }
 
     private boolean checkPermissions() {
@@ -143,10 +170,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initDatabase() {
+        databaseController = new DatabaseController(this);
+
         HttpHandler httpHandler = new HttpHandler(this);
         HttpThread httpThread = new HttpThread(httpHandler);
-
-        //httpHandler.postAtTime(httpThread, 0);
 
         httpThread.start();
     }
@@ -176,5 +203,9 @@ public class HomeActivity extends AppCompatActivity {
 
         // Update the shared preferences with the current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+    }
+
+    public DatabaseController getDatabaseController() {
+        return databaseController;
     }
 }

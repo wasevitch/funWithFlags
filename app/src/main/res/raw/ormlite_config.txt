@@ -1,0 +1,55 @@
+#
+# generated on 2017/09/19 09:58:14
+#
+# --table-start--
+dataClass=com.example.nicolas.drapeaux.db.model.Country
+tableName=countries
+# --table-fields-start--
+# --field-start--
+fieldName=country
+id=true
+# --field-end--
+# --field-start--
+fieldName=image
+dataPersister=BYTE_ARRAY
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.example.nicolas.drapeaux.db.model.Bind
+tableName=bind
+# --table-fields-start--
+# --field-start--
+fieldName=country
+canBeNull=false
+foreign=true
+uniqueCombo=true
+foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
+# --field-end--
+# --field-start--
+fieldName=quizz
+canBeNull=false
+foreign=true
+uniqueCombo=true
+foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
+# --field-end--
+# --field-start--
+fieldName=direction
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.example.nicolas.drapeaux.db.model.Quizz
+tableName=quizz
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

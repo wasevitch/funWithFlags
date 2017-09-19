@@ -128,8 +128,6 @@ class HttpThread extends Thread {
 
             Log.i("flagDatabase", "Size : " + daoCountry.countOf());
             Log.i("flagDatabase", daoCountry.queryForId("France").toString());
-
-            Log.i("Super", "rigolo");
         } catch(IOException e) {
             Log.i("flagDatabase", "Exception :" + e.getLocalizedMessage());
         } catch (SQLException e) {
@@ -142,9 +140,12 @@ class HttpThread extends Thread {
 
 public class HomeActivity extends AppCompatActivity {
 
-    SharedPreferences prefs = null;
+    private SharedPreferences prefs = null;
 
-    DatabaseController databaseController;
+    private DatabaseController databaseController;
+
+    private HttpHandler httpHandler;
+    private HttpThread httpThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,10 +173,8 @@ public class HomeActivity extends AppCompatActivity {
     private void initDatabase() {
         databaseController = new DatabaseController(this);
 
-        HttpHandler httpHandler = new HttpHandler(this);
-        HttpThread httpThread = new HttpThread(httpHandler);
-
-        httpThread.start();
+        httpHandler = new HttpHandler(this);
+        httpThread = new HttpThread(httpHandler);
     }
 
     // merci google
@@ -196,9 +195,9 @@ public class HomeActivity extends AppCompatActivity {
         if (currentVersionCode == savedVersionCode) {
             return;
         } else if (savedVersionCode == DOESNT_EXIST) {
-
+            httpThread.start();
         } else if (currentVersionCode > savedVersionCode) {
-
+            httpThread.start();
         }
 
         // Update the shared preferences with the current version code

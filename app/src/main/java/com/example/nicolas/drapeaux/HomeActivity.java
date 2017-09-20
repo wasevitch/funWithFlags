@@ -15,7 +15,7 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences prefs = null;
 
     private DatabaseController databaseController;
-    private FlagController flagController;
+    private CountryController countryController;
     private QuizzController quizzController;
 
     private HttpHandler httpHandler;
@@ -61,8 +61,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void updateImageRoller() {
-        int id = (int)(Math.random()*flagController.getSize());
-        imageViewFlagRoller.setImageBitmap(flagController.getCountryFlag(id));
+        int id = (int)(Math.random()* countryController.getSize());
+        imageViewFlagRoller.setImageBitmap(countryController.getCountryFlag(id));
     }
 
     private boolean checkPermissions() {
@@ -80,8 +80,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initFlags() {
-        flagController = new FlagController(databaseController);
-        flagController.initFlags();
+        countryController = new CountryController(databaseController);
+        countryController.initFlags();
     }
 
     // merci google

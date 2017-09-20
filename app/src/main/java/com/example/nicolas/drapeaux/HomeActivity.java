@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.sql.SQLException;
+
 public class HomeActivity extends AppCompatActivity {
 
     private SharedPreferences prefs = null;
@@ -33,9 +35,14 @@ public class HomeActivity extends AppCompatActivity {
 
         imageViewFlagRoller = (ImageView)findViewById(R.id.imageViewFlagRoller);
 
+        httpHandler = new HttpHandler(this);
+        httpThread = new HttpThread(httpHandler);
+
         if(checkPermissions()) {
             initDatabase();
-            if(checkFirstRun() == false) {
+            if(!checkdb() && !checkFirstRun()) {
+                httpThread.start();
+            } else {
                 game();
             }
         } else {
@@ -77,6 +84,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initDatabase() {
         databaseController = new DatabaseController(this);
+        httpHandler.setDatabaseController(databaseController);
     }
 
     private void initFlags() {
@@ -84,24 +92,28 @@ public class HomeActivity extends AppCompatActivity {
         countryController.initFlags();
     }
 
-    // merci google
+    private boolean checkdb() {
+        try {
+            if(databaseController.getDaoCountry().queryForAll().size() > 0)
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     private boolean checkFirstRun() {
 
         final String PREFS_NAME = "com.example.nicolas.drapeaux";
         final String PREF_VERSION_CODE_KEY = "version_code";
         final int DOESNT_EXIST = -1;
 
-        // Get current version code
         int currentVersionCode = BuildConfig.VERSION_CODE;
 
-        // Get saved version code
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
 
-        httpHandler = new HttpHandler(this);
-        httpThread = new HttpThread(httpHandler);
-
-        // Check for first run or upgrade
         if (currentVersionCode == savedVersionCode) {
             return false;
         } else if (savedVersionCode == DOESNT_EXIST) {
@@ -110,7 +122,6 @@ public class HomeActivity extends AppCompatActivity {
             httpThread.start();
         }
 
-        // Update the shared preferences with the current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
 
         return true;

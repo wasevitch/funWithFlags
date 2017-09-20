@@ -13,16 +13,19 @@ class HttpHandler extends Handler {
 
     public HttpHandler(HomeActivity homeActivity) {
         this.homeActivity = homeActivity;
-        databaseController = homeActivity.getDatabaseController();
     }
 
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
-
+        homeActivity.game();
     }
 
     public DatabaseController getDatabaseController() {
         return databaseController;
+    }
+
+    public void setDatabaseController(DatabaseController databaseController) {
+        this.databaseController = databaseController;
     }
 }

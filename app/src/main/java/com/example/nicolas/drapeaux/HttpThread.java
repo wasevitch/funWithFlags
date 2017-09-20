@@ -2,6 +2,7 @@ package com.example.nicolas.drapeaux;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Message;
 import android.util.Log;
 
 import com.example.nicolas.drapeaux.db.model.Country;
@@ -101,6 +102,7 @@ class HttpThread extends Thread {
             e.printStackTrace();
         } finally {
             Log.i("flagDatabase", "Finished!");
+            httpHandler.sendMessage(new Message());
         }
     }
 }

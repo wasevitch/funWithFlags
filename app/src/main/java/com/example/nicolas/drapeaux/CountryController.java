@@ -11,14 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FlagController {
+public class CountryController {
 
     DatabaseController databaseController;
 
     Map<String, Bitmap> countryFlags;
     List<Country> countries;
 
-    public FlagController(DatabaseController databaseController) {
+    public CountryController(DatabaseController databaseController) {
         this.databaseController = databaseController;
     }
 

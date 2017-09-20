@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">Flags</string>
     <string name="play">Play</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button1">Button1</string>
+    <string name="button2">Button2</string>
+    <string name="button3">Button3</string>
+    <string name="button4">Button4</string>
+    <string name="button">Button</string>
+    <string name="pays2">pays2</string>
+    <string name="pays3">pays3</string>
+    <string name="pays4">pays4</string>
+    <string name="pays_4">pays 4</string>
+    <string name="pays_1">pays 1</string>
+    <string name="pays_2">pays 2</string>
+    <string name="pays_3">pays 3</string>
 </resources>

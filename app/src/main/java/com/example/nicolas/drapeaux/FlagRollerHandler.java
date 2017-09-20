@@ -13,7 +13,7 @@ public class FlagRollerHandler extends Handler {
 
     @Override
     public void handleMessage(Message msg) {
-        homeActivity.imageTest();
+        homeActivity.updateImageRoller();
     }
 
 }

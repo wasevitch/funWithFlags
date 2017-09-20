@@ -45,7 +45,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public void game() {
         initFlags();
-        imageTest();
+        updateImageRoller();
+
         flagRollerHandler = new FlagRollerHandler(this);
         flagRollerThread = new FlagRollerThread(flagRollerHandler);
 
@@ -59,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         flagRollerHandler.post(flagRollerThread);
     }
 
-    public void imageTest() {
+    public void updateImageRoller() {
         int id = (int)(Math.random()*flagController.getSize());
         imageViewFlagRoller.setImageBitmap(flagController.getCountryFlag(id));
     }

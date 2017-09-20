@@ -16,4 +16,6 @@
     <string name="pays_1">pays 1</string>
     <string name="pays_2">pays 2</string>
     <string name="pays_3">pays 3</string>
+    <string name="quizz_img_fragment">Quizz Img Fragment</string>
+    <string name="main_fragment">Main Fragment</string>
 </resources>

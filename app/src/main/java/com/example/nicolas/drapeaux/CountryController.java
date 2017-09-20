@@ -43,7 +43,8 @@ public class CountryController {
         return countryFlags.get(countryCode);
     }
 
-    public Country getCountry(int entry) {
+    public Country getCountry(int entry)
+    {
         return countries.get(entry);
     }
 

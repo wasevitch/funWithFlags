@@ -1,6 +1,8 @@
 package com.example.nicolas.drapeaux;
 
 import android.Manifest;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
@@ -8,7 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+
+import com.example.nicolas.drapeaux.fragments.MainFragment;
+import com.example.nicolas.drapeaux.fragments.QuizzFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -30,6 +36,38 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+/* ***Moi *** */
+
+    /*    FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();*/
+
+        Button play = (Button) findViewById(R.id.play);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                QuizzFragment Qf1 = new QuizzFragment();
+                fragmentTransaction.replace(android.R.id.content, Qf1);
+                fragmentTransaction.commit();
+            }
+        });
+
+        // get the display mode et switcher les frags en retournant le tel
+     /*   int displaymode = getResources().getConfiguration().orientation;
+        if (displaymode == 1) { // it portrait mode
+            QuizzFragment Qf1 = new QuizzFragment();
+            fragmentTransaction.replace(android.R.id.content, Qf1);
+        } else {// its landscape
+            MainFragment Mf2 = new MainFragment();
+            fragmentTransaction.replace(android.R.id.content, Mf2);
+        }*/
+
+
+
+ /* *** Moi *** */
+
 
         imageViewFlagRoller = (ImageView)findViewById(R.id.imageViewFlagRoller);
 

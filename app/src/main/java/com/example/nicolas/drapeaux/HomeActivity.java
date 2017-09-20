@@ -3,29 +3,23 @@ package com.example.nicolas.drapeaux;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.example.nicolas.drapeaux.db.model.Country;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.j256.ormlite.android.AndroidConnectionSource;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.support.ConnectionSource;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,114 +29,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-class HttpHandler extends Handler {
-
-    private HomeActivity homeActivity;
-    private DatabaseController databaseController;
-
-    public HttpHandler(HomeActivity homeActivity) {
-        this.homeActivity = homeActivity;
-        databaseController = homeActivity.getDatabaseController();
-    }
-
-    @Override
-    public void handleMessage(Message msg) {
-        super.handleMessage(msg);
-
-    }
-
-    public DatabaseController getDatabaseController() {
-        return databaseController;
-    }
-}
-
-class HttpThread extends Thread {
-    private HttpHandler httpHandler;
-
-    public HttpThread(HttpHandler handler) {
-        httpHandler = handler;
-    }
-
-    private byte[] getCountryImage(String countryCode) {
-        HttpURLConnection urlConnection = null;
-        try {
-            URL uri = new URL("http://www.geognos.com/api/en/countries/flag/"+countryCode+".png");
-            urlConnection = (HttpURLConnection) uri.openConnection();
-            int statusCode = urlConnection.getResponseCode();
-            if (statusCode != 200) {
-                return null;
-            }
-            InputStream inputStream = urlConnection.getInputStream();
-            if (inputStream != null) {
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                return baos.toByteArray();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.w("flagDatabase", "Error downloading image from " + countryCode);
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public void run() {
-        try {
-            Log.i("flagDatabase", "Connecting to flag webservice");
-            URL url = new URL("http://www.geognos.com/api/en/countries/info/all.json");
-            HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
-            urlConnection.connect();
-            Log.i("flagDatabase", "Response code : " + urlConnection.getResponseCode());
-            BufferedReader receivedWebContent = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-            Gson gson = new Gson();
-
-            JsonObject jsonObject = gson.fromJson(receivedWebContent, JsonObject.class);
-
-            JsonObject array = jsonObject.getAsJsonObject("Results");
-
-            List<Country> countries = new ArrayList<>();
-
-            for(String key : array.keySet()) {
-                Log.i("Country : ", key);
-
-                JsonObject jsonCountry = array.getAsJsonObject(key);
-                String jsonCountryName = jsonCountry.get("Name").getAsString();
-
-                Country country = new Country();
-
-                country.setCountry(jsonCountryName);
-                country.setImage(getCountryImage(key));
-
-                countries.add(country);
-            }
-
-            Dao<Country, String> daoCountry = httpHandler.getDatabaseController().getDatabaseHelper().getDao(Country.class);
-
-            daoCountry.create(countries);
-
-            Log.i("flagDatabase", "Size : " + daoCountry.countOf());
-            Log.i("flagDatabase", daoCountry.queryForId("France").toString());
-        } catch(IOException e) {
-            Log.i("flagDatabase", "Exception :" + e.getLocalizedMessage());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            Log.i("flagDatabase", "Finished!");
-        }
-    }
-}
-
 public class HomeActivity extends AppCompatActivity {
 
     private SharedPreferences prefs = null;
 
     private DatabaseController databaseController;
+    private FlagController flagController;
+    private QuizzController quizzController;
 
     private HttpHandler httpHandler;
     private HttpThread httpThread;
@@ -155,6 +48,8 @@ public class HomeActivity extends AppCompatActivity {
         if(checkPermissions()) {
             initDatabase();
             checkFirstRun();
+            initFlags();
+            imageTest();
         } else {
             Log.i("Error", "No permission, cannot download country flags");
         }
@@ -170,11 +65,18 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    private void imageTest() {
+        ImageView imageViewTest = (ImageView)findViewById(R.id.imageViewTest);
+        imageViewTest.setImageBitmap(flagController.getFlag("Belgium"));
+    }
+
     private void initDatabase() {
         databaseController = new DatabaseController(this);
+    }
 
-        httpHandler = new HttpHandler(this);
-        httpThread = new HttpThread(httpHandler);
+    private void initFlags() {
+        flagController = new FlagController(databaseController);
+        flagController.initFlags();
     }
 
     // merci google
@@ -190,6 +92,9 @@ public class HomeActivity extends AppCompatActivity {
         // Get saved version code
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+        httpHandler = new HttpHandler(this);
+        httpThread = new HttpThread(httpHandler);
 
         // Check for first run or upgrade
         if (currentVersionCode == savedVersionCode) {

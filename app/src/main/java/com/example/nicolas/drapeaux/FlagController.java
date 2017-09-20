@@ -16,6 +16,7 @@ public class FlagController {
     DatabaseController databaseController;
 
     Map<String, Bitmap> countryFlags;
+    List<Country> countries;
 
     public FlagController(DatabaseController databaseController) {
         this.databaseController = databaseController;
@@ -27,10 +28,10 @@ public class FlagController {
         try {
             Dao<Country, String> daoCountry = databaseController.getDaoCountry();
 
-            List<Country> countries = daoCountry.queryForAll();
+            countries = daoCountry.queryForAll();
 
             for(Country country : countries) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(country.getImage(), 0, country.getImage().length);
+                Bitmap bitmap = getBitmapFromBytes(country.getImage());
                 countryFlags.put(country.getCountry(), bitmap);
             }
         } catch (SQLException e) {
@@ -40,6 +41,27 @@ public class FlagController {
 
     public Bitmap getFlag(String countryCode) {
         return countryFlags.get(countryCode);
+    }
+
+    public Country getCountry(int entry) {
+        return countries.get(entry);
+    }
+
+    public Bitmap getCountryFlag(int entry) {
+        Country country = getCountry(entry);
+
+        if(country == null)
+            return null;
+
+        return getFlag(country.getCountry());
+    }
+
+    private Bitmap getBitmapFromBytes(byte[] data) {
+        return BitmapFactory.decodeByteArray(data, 0, data.length);
+    }
+
+    public int getSize() {
+        return countries.size();
     }
 
 }

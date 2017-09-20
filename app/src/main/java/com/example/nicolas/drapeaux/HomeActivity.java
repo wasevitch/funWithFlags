@@ -3,31 +3,12 @@ package com.example.nicolas.drapeaux;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
-
-import com.example.nicolas.drapeaux.db.model.Country;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.j256.ormlite.dao.Dao;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -40,19 +21,47 @@ public class HomeActivity extends AppCompatActivity {
     private HttpHandler httpHandler;
     private HttpThread httpThread;
 
+    private FlagRollerHandler flagRollerHandler;
+    private FlagRollerThread flagRollerThread;
+
+    private ImageView imageViewFlagRoller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        imageViewFlagRoller = (ImageView)findViewById(R.id.imageViewFlagRoller);
+
         if(checkPermissions()) {
             initDatabase();
-            checkFirstRun();
-            initFlags();
-            imageTest();
+            if(checkFirstRun() == false) {
+                game();
+            }
         } else {
             Log.i("Error", "No permission, cannot download country flags");
         }
+    }
+
+    public void game() {
+        initFlags();
+        imageTest();
+        flagRollerHandler = new FlagRollerHandler(this);
+        flagRollerThread = new FlagRollerThread(flagRollerHandler);
+
+        imageViewFlagRoller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flagRollerHandler.post(flagRollerThread);
+            }
+        });
+
+        flagRollerHandler.post(flagRollerThread);
+    }
+
+    public void imageTest() {
+        int id = (int)(Math.random()*flagController.getSize());
+        imageViewFlagRoller.setImageBitmap(flagController.getCountryFlag(id));
     }
 
     private boolean checkPermissions() {
@@ -65,11 +74,6 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void imageTest() {
-        ImageView imageViewTest = (ImageView)findViewById(R.id.imageViewTest);
-        imageViewTest.setImageBitmap(flagController.getFlag("Belgium"));
-    }
-
     private void initDatabase() {
         databaseController = new DatabaseController(this);
     }
@@ -80,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // merci google
-    private void checkFirstRun() {
+    private boolean checkFirstRun() {
 
         final String PREFS_NAME = "com.example.nicolas.drapeaux";
         final String PREF_VERSION_CODE_KEY = "version_code";
@@ -98,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Check for first run or upgrade
         if (currentVersionCode == savedVersionCode) {
-            return;
+            return false;
         } else if (savedVersionCode == DOESNT_EXIST) {
             httpThread.start();
         } else if (currentVersionCode > savedVersionCode) {
@@ -107,6 +111,8 @@ public class HomeActivity extends AppCompatActivity {
 
         // Update the shared preferences with the current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+
+        return true;
     }
 
     public DatabaseController getDatabaseController() {

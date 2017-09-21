@@ -1,8 +1,6 @@
 package com.example.nicolas.drapeaux;
 
 import android.Manifest;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
@@ -10,11 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.nicolas.drapeaux.fragments.MainFragment;
-import com.example.nicolas.drapeaux.fragments.QuizzFragment;
+import java.sql.SQLException;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -37,43 +33,16 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-/* ***Moi *** */
-
-    /*    FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();*/
-
-        Button play = (Button) findViewById(R.id.play);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                QuizzFragment Qf1 = new QuizzFragment();
-                fragmentTransaction.replace(android.R.id.content, Qf1);
-                fragmentTransaction.commit();
-            }
-        });
-
-        // get the display mode et switcher les frags en retournant le tel
-     /*   int displaymode = getResources().getConfiguration().orientation;
-        if (displaymode == 1) { // it portrait mode
-            QuizzFragment Qf1 = new QuizzFragment();
-            fragmentTransaction.replace(android.R.id.content, Qf1);
-        } else {// its landscape
-            MainFragment Mf2 = new MainFragment();
-            fragmentTransaction.replace(android.R.id.content, Mf2);
-        }*/
-
-
-
- /* *** Moi *** */
-
-
         imageViewFlagRoller = (ImageView)findViewById(R.id.imageViewFlagRoller);
+
+        httpHandler = new HttpHandler(this);
+        httpThread = new HttpThread(httpHandler);
 
         if(checkPermissions()) {
             initDatabase();
-            if(checkFirstRun() == false) {
+            if(!checkdb() && !checkFirstRun()) {
+                httpThread.start();
+            } else {
                 game();
             }
         } else {
@@ -115,6 +84,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initDatabase() {
         databaseController = new DatabaseController(this);
+        httpHandler.setDatabaseController(databaseController);
     }
 
     private void initFlags() {
@@ -122,24 +92,28 @@ public class HomeActivity extends AppCompatActivity {
         countryController.initFlags();
     }
 
-    // merci google
+    private boolean checkdb() {
+        try {
+            if(databaseController.getDaoCountry().queryForAll().size() > 0)
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     private boolean checkFirstRun() {
 
         final String PREFS_NAME = "com.example.nicolas.drapeaux";
         final String PREF_VERSION_CODE_KEY = "version_code";
         final int DOESNT_EXIST = -1;
 
-        // Get current version code
         int currentVersionCode = BuildConfig.VERSION_CODE;
 
-        // Get saved version code
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
 
-        httpHandler = new HttpHandler(this);
-        httpThread = new HttpThread(httpHandler);
-
-        // Check for first run or upgrade
         if (currentVersionCode == savedVersionCode) {
             return false;
         } else if (savedVersionCode == DOESNT_EXIST) {
@@ -148,7 +122,6 @@ public class HomeActivity extends AppCompatActivity {
             httpThread.start();
         }
 
-        // Update the shared preferences with the current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
 
         return true;

@@ -23,6 +23,7 @@ public class QuizzController {
     private Dao<Quizz, Integer> daoQuizz;
 
     private final int nbCountries = 4;
+    private final int nbQuestions = 10;
 
     public QuizzController(DatabaseController databaseController, CountryController countryController) {
         this.databaseController = databaseController;
@@ -36,6 +37,20 @@ public class QuizzController {
 
     public void newQuizz() {
         quizz = new Quizz();
+
+        try {
+            daoQuizz.create(quizz);
+            daoQuizz.assignEmptyForeignCollection(quizz, "questions");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i < nbQuestions; ++i) {
+            newQuestion();
+        }
+
+        quizz.saveRemoteList();
+        quizz.updateLocalList();
     }
 
     public Question newQuestion() {
@@ -43,8 +58,6 @@ public class QuizzController {
             return null;
 
         Question question = new Question();
-
-        List<Country> countries = new ArrayList<>();
 
         Random randomGenerator = new Random();
         Set<Integer> numbers = new LinkedHashSet<>();

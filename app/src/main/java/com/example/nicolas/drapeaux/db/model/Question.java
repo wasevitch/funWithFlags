@@ -8,28 +8,31 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "question")
 public class Question implements Serializable {
 
-    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true, uniqueCombo = true)
+    @DatabaseField(generatedId = true)
+    private Integer id;
+
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private Country country;
 
-    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true, uniqueCombo = true)
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private Quizz quizz;
 
     @DatabaseField
     private int type;
 
-    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Country firstAnswer;
 
-    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Country secondAnwser;
 
-    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Country thirdAnswer;
 
-    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Country fourthAnswer;
 
-    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Country playerAnwser;
 
     final public int BUTTONS = 0;

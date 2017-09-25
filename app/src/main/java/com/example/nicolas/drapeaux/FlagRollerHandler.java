@@ -2,6 +2,8 @@ package com.example.nicolas.drapeaux;
 
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.widget.ImageView;
 
 public class FlagRollerHandler extends Handler {
 
@@ -13,7 +15,7 @@ public class FlagRollerHandler extends Handler {
 
     @Override
     public void handleMessage(Message msg) {
-        homeActivity.updateImageRoller();
+        homeActivity.updateImageRoller((ImageView) homeActivity.findViewById(R.id.imageViewFlagRoller));
     }
 
 }

@@ -6,6 +6,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Quizz implements Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @ForeignCollectionField(columnName = "questions")
+    @ForeignCollectionField(eager = true, columnName = "questions")
     private ForeignCollection<Question> questions;
 
     List<Question> localQuestions;
@@ -41,12 +42,15 @@ public class Quizz implements Serializable {
     }
 
     public void updateLocalList() {
-
+        localQuestions = new ArrayList<>();
+        for(Question question : questions) {
+            localQuestions.add(question);
+        }
     }
 
     public void saveRemoteList() {
         for(Question question : localQuestions) {
-
+            questions.add(question);
         }
     }
 }

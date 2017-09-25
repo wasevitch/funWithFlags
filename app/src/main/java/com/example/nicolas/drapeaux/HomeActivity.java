@@ -43,7 +43,8 @@ public class HomeActivity extends AppCompatActivity {
 
         if(checkPermissions()) {
             initDatabase();
-            if(!checkdb() && !checkFirstRun()) {
+            //if(!checkdb() || !checkFirstRun()) {
+            if(!checkdb()) {
                 httpThread.start();
             } else {
                 game();
@@ -75,7 +76,6 @@ public class HomeActivity extends AppCompatActivity {
         quizzController.newQuizz();
         quizzController.saveQuizz();
 
-        Question question = quizzController.newQuestion();
         Quizz quizz = quizzController.getQuizz();
 
         Log.i("oui", "non");

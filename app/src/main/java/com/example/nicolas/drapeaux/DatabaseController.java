@@ -3,7 +3,7 @@ package com.example.nicolas.drapeaux;
 import android.content.Context;
 import android.util.Pair;
 
-import com.example.nicolas.drapeaux.db.model.Bind;
+import com.example.nicolas.drapeaux.db.model.Question;
 import com.example.nicolas.drapeaux.db.model.Country;
 import com.example.nicolas.drapeaux.db.model.Quizz;
 import com.j256.ormlite.android.AndroidConnectionSource;
@@ -23,7 +23,7 @@ public class DatabaseController {
     private ConnectionSource sqliteConnection;
 
     private Dao<Country, String> daoCountry = null;
-    private Dao<Bind, Pair<Country, Quizz>> daoBind = null;
+    private Dao<Question, Pair<Country, Quizz>> daoBind = null;
     private Dao<Quizz, Integer> daoQuizz = null;
 
     public DatabaseController(Context context) {
@@ -46,9 +46,9 @@ public class DatabaseController {
         return daoCountry;
     }
 
-    public Dao<Bind, Pair<Country, Quizz>> getDaoBind() throws SQLException {
+    public Dao<Question, Pair<Country, Quizz>> getDaoBind() throws SQLException {
         if(daoBind == null) {
-            daoBind = databaseHelper.getDao(Bind.class);
+            daoBind = databaseHelper.getDao(Question.class);
         }
         return daoBind;
     }

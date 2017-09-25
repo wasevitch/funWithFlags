@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.nicolas.drapeaux.db.model.Question;
+import com.example.nicolas.drapeaux.db.model.Quizz;
+
 import java.sql.SQLException;
 
 public class HomeActivity extends AppCompatActivity {
@@ -52,6 +55,9 @@ public class HomeActivity extends AppCompatActivity {
 
     public void game() {
         initFlags();
+
+        quizzController = new QuizzController(databaseController, countryController);
+
         updateImageRoller();
 
         flagRollerHandler = new FlagRollerHandler(this);
@@ -65,6 +71,14 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         flagRollerHandler.post(flagRollerThread);
+
+        quizzController.newQuizz();
+        quizzController.saveQuizz();
+
+        Question question = quizzController.newQuestion();
+        Quizz quizz = quizzController.getQuizz();
+
+        Log.i("oui", "non");
     }
 
     public void updateImageRoller() {

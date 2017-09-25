@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.nicolas.drapeaux.db.model.Bind;
+import com.example.nicolas.drapeaux.db.model.Question;
 import com.example.nicolas.drapeaux.db.model.Country;
 import com.example.nicolas.drapeaux.db.model.Quizz;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -33,22 +33,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             Log.i(DatabaseHelper.class.getName(), "onCreate");
             TableUtils.createTable(connectionSource, Country.class);
-            TableUtils.createTable(connectionSource, Bind.class);
+            TableUtils.createTable(connectionSource, Question.class);
             TableUtils.createTable(connectionSource, Quizz.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
         }
-
-        /* // here we try inserting data in the on-create as a test
-        RuntimeExceptionDao<SimpleData, Integer> dao = getSimpleDataDao();
-        long millis = System.currentTimeMillis();
-        // create some entries in the onCreate
-        SimpleData simple = new SimpleData(millis);
-        dao.create(simple);
-        simple = new SimpleData(millis + 1);
-        dao.create(simple);
-        Log.i(DatabaseHelper.class.getName(), "created new entries in onCreate: " + millis);*/
     }
 
     @Override
@@ -56,9 +46,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             Log.i(DatabaseHelper.class.getName(), "onUpgrade");
             TableUtils.dropTable(connectionSource, Country.class, true);
-            TableUtils.dropTable(connectionSource, Bind.class, true);
+            TableUtils.dropTable(connectionSource, Question.class, true);
             TableUtils.dropTable(connectionSource, Quizz.class, true);
-            // after we drop the old databases, we create the new ones
+
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);

@@ -15,7 +15,7 @@
         tools:ignore="UselessParent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageViewFragmentButtons"
             android:layout_width="379dp"
             android:layout_height="match_parent"
             android:contentDescription=""
@@ -36,19 +36,19 @@
             android:text="@string/pays_1" />
 
         <Button
-            android:id="@+id/buttonpays2"
+            android:id="@+id/buttonPays2"
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:text="@string/pays_2" />
 
         <Button
-            android:id="@+id/buttonpays3"
+            android:id="@+id/buttonPays3"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:text="@string/pays_3" />
 
         <Button
-            android:id="@+id/buttonpays4"
+            android:id="@+id/buttonPays4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/pays_4" />

@@ -101,4 +101,17 @@ public class Question implements Serializable {
     public void setPlayerAnwser(Country playerAnwser) {
         this.playerAnwser = playerAnwser;
     }
+
+    public Country getCountryByName(String name) {
+        if(firstAnswer.getCountry().equals(name))
+            return firstAnswer;
+        else if(secondAnwser.getCountry().equals(name))
+            return secondAnwser;
+        else if(thirdAnswer.getCountry().equals(name))
+            return thirdAnswer;
+        else if(fourthAnswer.getCountry().equals(name))
+            return fourthAnswer;
+
+        return null;
+    }
 }

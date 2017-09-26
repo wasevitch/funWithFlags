@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.example.nicolas.drapeaux.FragmentController;
 import com.example.nicolas.drapeaux.R;
+import com.example.nicolas.drapeaux.db.model.Country;
 import com.example.nicolas.drapeaux.db.model.Question;
 
 public class QuizzFragment extends Fragment implements ProgressBarHandler {
@@ -72,6 +73,10 @@ public class QuizzFragment extends Fragment implements ProgressBarHandler {
                 Button button = (Button)v;
 
                 String countryName = button.getText().toString();
+
+                Country country = question.getCountryByName(countryName);
+
+                question.setPlayerAnwser(country);
 
                 progressHandler.setProgressBarHandler(null);
 

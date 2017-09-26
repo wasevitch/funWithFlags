@@ -11,6 +11,7 @@ import com.example.nicolas.drapeaux.db.model.Question;
 import com.example.nicolas.drapeaux.fragments.MainFragment;
 import com.example.nicolas.drapeaux.fragments.QuizzFragment;
 import com.example.nicolas.drapeaux.fragments.QuizzImgFragment;
+import com.example.nicolas.drapeaux.fragments.ResultFragment;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -57,7 +58,7 @@ public class FragmentController implements Serializable {
         if(iterator.hasNext())
             showQuizzFragment(iterator.next());
         else
-            showMainMenu();
+            showResults();
     }
 
     public void showQuizzFragment(Question question) {
@@ -84,6 +85,22 @@ public class FragmentController implements Serializable {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.fragmentcontainer, currentFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void showResults() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Bundle args = new Bundle();
+
+        args.putSerializable("fragmentcontroller", this);
+        args.putSerializable("quizzcontroller", quizzController);
+
+        ResultFragment resultFragment = new ResultFragment();
+
+        resultFragment.setArguments(args);
+
+        fragmentTransaction.replace(R.id.fragmentcontainer, resultFragment);
         fragmentTransaction.commit();
     }
 }

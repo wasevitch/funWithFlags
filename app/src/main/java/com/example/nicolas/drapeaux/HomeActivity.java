@@ -62,7 +62,6 @@ public class HomeActivity extends AppCompatActivity {
 
         quizzController = new QuizzController(databaseController, countryController);
 
-
         fragmentController = new FragmentController(this, countryController, quizzController);
 
         fragmentController.showMainMenu();

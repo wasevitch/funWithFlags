@@ -85,6 +85,8 @@ public class QuizzImgFragment extends Fragment implements ProgressBarHandler {
 
                 String countryName = imgButtons.get(button);
 
+                progressHandler.setProgressBarHandler(null);
+
                 fragmentController.showNextQuestion();
             }
         };

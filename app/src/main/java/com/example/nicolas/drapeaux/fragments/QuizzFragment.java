@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.nicolas.drapeaux.FragmentController;
 import com.example.nicolas.drapeaux.R;
 import com.example.nicolas.drapeaux.db.model.Question;
 
 public class QuizzFragment extends Fragment {
+
+    private FragmentController fragmentController;
 
     private ImageView imageViewFragmentButtons;
 
@@ -48,9 +51,31 @@ public class QuizzFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button button = (Button)v;
+
+                String countryName = button.getText().toString();
+
+                fragmentController.showNextQuestion();
+            }
+        };
+
+        buttonPays1.setOnClickListener(listener);
+        buttonPays2.setOnClickListener(listener);
+        buttonPays3.setOnClickListener(listener);
+        buttonPays4.setOnClickListener(listener);
+    }
+
+    @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
         question = (Question)args.getSerializable("question");
+        fragmentController = (FragmentController)args.getSerializable("fragmentcontroller");
     }
 
     public ImageView getImageViewFragmentButtons() {

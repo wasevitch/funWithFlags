@@ -1,20 +1,17 @@
 package com.example.nicolas.drapeaux;
 
-import com.example.nicolas.drapeaux.db.model.Country;
 import com.example.nicolas.drapeaux.db.model.Question;
 import com.example.nicolas.drapeaux.db.model.Quizz;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.ForeignCollection;
 
+import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class QuizzController {
+public class QuizzController implements Serializable {
 
     private DatabaseController databaseController;
     private CountryController countryController;
@@ -24,6 +21,8 @@ public class QuizzController {
 
     private final int nbCountries = 4;
     private final int nbQuestions = 10;
+
+    Iterator<Question> iterator;
 
     public QuizzController(DatabaseController databaseController, CountryController countryController) {
         this.databaseController = databaseController;
@@ -51,6 +50,8 @@ public class QuizzController {
 
         quizz.saveRemoteList();
         quizz.updateLocalList();
+
+        iterator = quizz.getQuestions().iterator();
     }
 
     public Question newQuestion() {
@@ -98,6 +99,14 @@ public class QuizzController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Question getNext() {
+        return iterator.next();
+    }
+
+    public Iterator<Question> getIterator() {
+        return iterator;
     }
 
     public Quizz getQuizz() {

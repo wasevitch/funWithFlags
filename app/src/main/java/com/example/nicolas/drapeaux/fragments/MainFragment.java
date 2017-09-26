@@ -12,6 +12,7 @@ import com.example.nicolas.drapeaux.CountryController;
 import com.example.nicolas.drapeaux.FlagRollerHandler;
 import com.example.nicolas.drapeaux.FlagRollerThread;
 import com.example.nicolas.drapeaux.FragmentController;
+import com.example.nicolas.drapeaux.QuizzController;
 import com.example.nicolas.drapeaux.R;
 import com.example.nicolas.drapeaux.db.model.Country;
 import com.example.nicolas.drapeaux.db.model.Question;
@@ -20,6 +21,7 @@ public class MainFragment extends Fragment {
 
     private FragmentController fragmentController;
     private CountryController countryController;
+    private QuizzController quizzController;
 
     private ImageView imageViewFlagRoller;
     private Button playButton;
@@ -51,25 +53,8 @@ public class MainFragment extends Fragment {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Question question = new Question();
-
-                Country country1 = countryController.getCountry(50);
-                Country country2 = countryController.getCountry(156);
-                Country country3 = countryController.getCountry(220);
-                Country country4 = countryController.getCountry(78);
-
-                question.setFirstAnswer(country1);
-                question.setSecondAnwser(country2);
-                question.setThirdAnswer(country3);
-                question.setFourthAnswer(country4);
-
-                question.setCountry(country2);
-
-                question.setType(0);
-
                 flagRollerHandler.setMainFragment(null);
-
-                fragmentController.showQuizzFragment(question);
+                fragmentController.showNextQuestion();
             }
         });
 
@@ -81,6 +66,7 @@ public class MainFragment extends Fragment {
         super.setArguments(args);
         fragmentController = (FragmentController)args.getSerializable("fragmentcontroller");
         countryController = (CountryController)args.getSerializable("countrycontroller");
+        quizzController = (QuizzController)args.get("quizzcontroller");
     }
 
     public void updateImageRoller(ImageView imageViewFlagRoller) {

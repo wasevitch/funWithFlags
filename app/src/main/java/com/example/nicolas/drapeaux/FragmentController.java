@@ -13,13 +13,10 @@ import com.example.nicolas.drapeaux.fragments.QuizzFragment;
 import com.example.nicolas.drapeaux.fragments.QuizzImgFragment;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 public class FragmentController implements Serializable {
     private FragmentManager fragmentManager;
-
-    private MainFragment mainFragment;
-    private QuizzFragment quizzFragment;
-    private QuizzImgFragment quizzImgFragment;
 
     private HomeActivity homeActivity;
 
@@ -32,24 +29,36 @@ public class FragmentController implements Serializable {
         this.quizzController = quizzController;
 
         fragmentManager = homeActivity.getSupportFragmentManager();
-
-        mainFragment = new MainFragment();
-        quizzFragment = new QuizzFragment();
-        quizzImgFragment = new QuizzImgFragment();
     }
 
     public void showMainMenu() {
+        quizzController.newQuizz();
+        quizzController.saveQuizz();
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Bundle args = new Bundle();
 
         args.putSerializable("fragmentcontroller", this);
         args.putSerializable("countrycontroller", countryController);
+        args.putSerializable("quizzcontroller", quizzController);
+
+
+        MainFragment mainFragment = new MainFragment();
 
         mainFragment.setArguments(args);
 
-        fragmentTransaction.add(R.id.fragmentcontainer, mainFragment);
+        fragmentTransaction.replace(R.id.fragmentcontainer, mainFragment);
         fragmentTransaction.commit();
+    }
+
+    public void showNextQuestion() {
+        Iterator<Question> iterator = quizzController.getIterator();
+
+        if(iterator.hasNext())
+            showQuizzFragment(iterator.next());
+        else
+            showMainMenu();
     }
 
     public void showQuizzFragment(Question question) {
@@ -58,17 +67,20 @@ public class FragmentController implements Serializable {
         Fragment currentFragment;
 
         if(type == 0) {
-            currentFragment = quizzFragment;
+            currentFragment = new QuizzFragment();
         } else if(type == 1) {
-            currentFragment = quizzImgFragment;
+            currentFragment = new QuizzImgFragment();
         } else {
             Log.i("Quizz", "Type inconnu");
             return;
         }
 
+        currentFragment = new QuizzFragment();
+
         Bundle args = new Bundle();
 
         args.putSerializable("question", question);
+        args.putSerializable("fragmentcontroller", this);
 
         currentFragment.setArguments(args);
 
@@ -76,17 +88,5 @@ public class FragmentController implements Serializable {
 
         fragmentTransaction.replace(R.id.fragmentcontainer, currentFragment);
         fragmentTransaction.commit();
-    }
-
-    public MainFragment getMainFragment() {
-        return mainFragment;
-    }
-
-    public QuizzFragment getQuizzFragment() {
-        return quizzFragment;
-    }
-
-    public QuizzImgFragment getQuizzImgFragment() {
-        return quizzImgFragment;
     }
 }

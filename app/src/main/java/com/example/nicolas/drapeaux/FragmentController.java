@@ -43,7 +43,6 @@ public class FragmentController implements Serializable {
         args.putSerializable("countrycontroller", countryController);
         args.putSerializable("quizzcontroller", quizzController);
 
-
         MainFragment mainFragment = new MainFragment();
 
         mainFragment.setArguments(args);
@@ -74,8 +73,6 @@ public class FragmentController implements Serializable {
             Log.i("Quizz", "Type inconnu");
             return;
         }
-
-        currentFragment = new QuizzFragment();
 
         Bundle args = new Bundle();
 

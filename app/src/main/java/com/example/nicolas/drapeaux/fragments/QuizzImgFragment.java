@@ -1,6 +1,5 @@
 package com.example.nicolas.drapeaux.fragments;
 
-import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.nicolas.drapeaux.FragmentController;
 import com.example.nicolas.drapeaux.R;
@@ -18,7 +18,7 @@ import com.example.nicolas.drapeaux.db.model.Question;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QuizzImgFragment extends Fragment {
+public class QuizzImgFragment extends Fragment implements ProgressBarHandler {
 
     private FragmentController fragmentController;
 
@@ -29,7 +29,12 @@ public class QuizzImgFragment extends Fragment {
     private ImageView imageView3;
     private ImageView imageView4;
 
+    private ProgressBar progressBar;
+
     private Question question = null;
+
+    private ProgressThread progressThread;
+    private ProgressHandler progressHandler;
 
     Map<ImageView, String> imgButtons;
 
@@ -43,6 +48,8 @@ public class QuizzImgFragment extends Fragment {
         imageView2 = (ImageView)view.findViewById(R.id.imageViewImg2);
         imageView3 = (ImageView)view.findViewById(R.id.imageViewImg3);
         imageView4 = (ImageView)view.findViewById(R.id.imageViewImg4);
+
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar2);
 
         imgButtons = new HashMap<>();
 
@@ -66,12 +73,19 @@ public class QuizzImgFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        progressThread = new ProgressThread();
+        progressHandler = new ProgressHandler(this, progressThread);
+        progressThread.setHandler(progressHandler);
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageView button = (ImageView) v;
 
                 String countryName = imgButtons.get(button);
+
+                progressHandler.setProgressBarHandler(null);
 
                 fragmentController.showNextQuestion();
             }
@@ -81,6 +95,9 @@ public class QuizzImgFragment extends Fragment {
         imageView2.setOnClickListener(listener);
         imageView3.setOnClickListener(listener);
         imageView4.setOnClickListener(listener);
+
+        progressHandler.setMaxTime(5000);
+        progressHandler.start();
     }
 
     @Override
@@ -88,5 +105,14 @@ public class QuizzImgFragment extends Fragment {
         super.setArguments(args);
         question = (Question)args.getSerializable("question");
         fragmentController = (FragmentController)args.getSerializable("fragmentcontroller");
+    }
+
+    @Override
+    public void updateProgressBar(int value) {
+        progressBar.setProgress(value);
+        if(value > 99) {
+            progressHandler.setProgressBarHandler(null);
+            fragmentController.showNextQuestion();
+        }
     }
 }

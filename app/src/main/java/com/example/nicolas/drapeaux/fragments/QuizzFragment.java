@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.nicolas.drapeaux.FragmentController;
 import com.example.nicolas.drapeaux.R;
 import com.example.nicolas.drapeaux.db.model.Question;
 
-public class QuizzFragment extends Fragment {
+public class QuizzFragment extends Fragment implements ProgressBarHandler {
 
     private FragmentController fragmentController;
 
@@ -25,7 +26,12 @@ public class QuizzFragment extends Fragment {
     private Button buttonPays3;
     private Button buttonPays4;
 
+    private ProgressBar progressBar;
+
     private Question question = null;
+
+    private ProgressThread progressThread;
+    private ProgressHandler progressHandler;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
@@ -37,6 +43,8 @@ public class QuizzFragment extends Fragment {
         buttonPays2 = (Button)view.findViewById(R.id.buttonPays2);
         buttonPays3 = (Button)view.findViewById(R.id.buttonPays3);
         buttonPays4 = (Button)view.findViewById(R.id.buttonPays4);
+
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
         if(question != null) {
             imageViewFragmentButtons.setImageBitmap(BitmapFactory.decodeByteArray(question.getCountry().getImage(), 0, question.getCountry().getImage().length));
@@ -54,12 +62,18 @@ public class QuizzFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        progressThread = new ProgressThread();
+        progressHandler = new ProgressHandler(this, progressThread);
+        progressThread.setHandler(progressHandler);
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Button button = (Button)v;
 
                 String countryName = button.getText().toString();
+
+                progressHandler.setProgressBarHandler(null);
 
                 fragmentController.showNextQuestion();
             }
@@ -69,6 +83,9 @@ public class QuizzFragment extends Fragment {
         buttonPays2.setOnClickListener(listener);
         buttonPays3.setOnClickListener(listener);
         buttonPays4.setOnClickListener(listener);
+
+        progressHandler.setMaxTime(5000);
+        progressHandler.start();
     }
 
     @Override
@@ -78,23 +95,13 @@ public class QuizzFragment extends Fragment {
         fragmentController = (FragmentController)args.getSerializable("fragmentcontroller");
     }
 
-    public ImageView getImageViewFragmentButtons() {
-        return imageViewFragmentButtons;
+    @Override
+    public void updateProgressBar(int value) {
+        progressBar.setProgress(value);
+        if(value > 99) {
+            progressHandler.setProgressBarHandler(null);
+            fragmentController.showNextQuestion();
+        }
     }
 
-    public Button getButtonPays1() {
-        return buttonPays1;
-    }
-
-    public Button getButtonPays2() {
-        return buttonPays2;
-    }
-
-    public Button getButtonPays3() {
-        return buttonPays3;
-    }
-
-    public Button getButtonPays4() {
-        return buttonPays4;
-    }
 }

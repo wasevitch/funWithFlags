@@ -20,4 +20,6 @@
     <string name="main_fragment">Main Fragment</string>
     <string name="textview">TextView</string>
     <string name="activit_principale">activité principale</string>
+    <string name="ca_va">Ca va</string>
+    <string name="coucou">Coucou</string>
 </resources>

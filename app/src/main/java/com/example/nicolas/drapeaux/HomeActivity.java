@@ -3,13 +3,14 @@ package com.example.nicolas.drapeaux;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -35,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
     private FlagRollerHandler flagRollerHandler;
     private FlagRollerThread flagRollerThread;
 
-    FragmentManager fragmentManager;
+   private  FragmentManager fragmentManager;
 
     MainFragment mainFragment;
     QuizzFragment quizzFragment;
@@ -47,6 +48,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         ////mainFragment.setArguments(getIntent().getExtras());
 
@@ -81,6 +84,12 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             Log.i("Error", "No permission, cannot download country flags");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     public void game() {
@@ -188,6 +197,4 @@ public class HomeActivity extends AppCompatActivity {
     public DatabaseController getDatabaseController() {
         return databaseController;
     }
-
-
 }

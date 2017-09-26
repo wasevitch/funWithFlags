@@ -6,12 +6,13 @@ import android.graphics.BitmapFactory;
 import com.example.nicolas.drapeaux.db.model.Country;
 import com.j256.ormlite.dao.Dao;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CountryController {
+public class CountryController implements Serializable {
 
     DatabaseController databaseController;
 

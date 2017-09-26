@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+
 import java.sql.SQLException;
 
 public class HomeActivity extends AppCompatActivity {
@@ -20,10 +21,13 @@ public class HomeActivity extends AppCompatActivity {
     private HttpHandler httpHandler;
     private HttpThread httpThread;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -46,10 +50,18 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    /**@Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }**/
+
     public void game() {
         initFlags();
 
         quizzController = new QuizzController(databaseController, countryController);
+
 
         fragmentController = new FragmentController(this, countryController, quizzController);
 

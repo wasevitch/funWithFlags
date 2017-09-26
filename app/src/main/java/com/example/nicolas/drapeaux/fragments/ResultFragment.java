@@ -6,11 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nicolas.drapeaux.QuizzController;
 import com.example.nicolas.drapeaux.R;
 
 
 
 public class ResultFragment extends Fragment {
+
+    private QuizzController quizzController;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

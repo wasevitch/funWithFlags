@@ -26,16 +26,16 @@
         android:id="@+id/textView"
         android:layout_width="59dp"
         android:layout_height="20dp"
-        android:text="@string/coucou"
-        android:layout_toRightOf="@+id/imageView"
         android:layout_alignTop="@+id/imageView"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintBottom_creator="1"
+        android:layout_toRightOf="@+id/imageView"
+        android:text="coucou"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
-        tools:ignore="RtlHardcoded" />
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        tools:ignore="RtlHardcoded"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/textView1"
@@ -43,11 +43,11 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView"
         android:layout_below="@+id/textView"
-        android:text="@string/ca_va"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
+        android:text="ca va"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
-        tools:ignore="RtlHardcoded" />
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        tools:ignore="RtlHardcoded"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
 </android.support.constraint.ConstraintLayout>

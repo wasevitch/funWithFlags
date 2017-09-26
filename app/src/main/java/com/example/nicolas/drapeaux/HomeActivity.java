@@ -3,21 +3,13 @@ package com.example.nicolas.drapeaux;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.nicolas.drapeaux.db.model.Question;
 import com.example.nicolas.drapeaux.db.model.Quizz;
-import com.example.nicolas.drapeaux.fragments.MainFragment;
-import com.example.nicolas.drapeaux.fragments.QuizzFragment;
-import com.example.nicolas.drapeaux.fragments.QuizzImgFragment;
 
 import java.sql.SQLException;
 
@@ -28,44 +20,20 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseController databaseController;
     private CountryController countryController;
     private QuizzController quizzController;
+    private FragmentController fragmentController;
 
     private HttpHandler httpHandler;
     private HttpThread httpThread;
-
-    private FlagRollerHandler flagRollerHandler;
-    private FlagRollerThread flagRollerThread;
-
-    FragmentManager fragmentManager;
-
-    MainFragment mainFragment;
-    QuizzFragment quizzFragment;
-    QuizzImgFragment quizzImgFragment;
-
-    ImageView imageRoller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        ////mainFragment.setArguments(getIntent().getExtras());
-
-        fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        mainFragment = new MainFragment();
-        quizzFragment = new QuizzFragment();
-        quizzImgFragment = new QuizzImgFragment();
-
-        fragmentTransaction.add(R.id.fragmentcontainer, mainFragment);
-        fragmentTransaction.commit();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        imageRoller = mainFragment.getImageViewFlagRoller();
 
         httpHandler = new HttpHandler(this);
         httpThread = new HttpThread(httpHandler);
@@ -88,46 +56,14 @@ public class HomeActivity extends AppCompatActivity {
 
         quizzController = new QuizzController(databaseController, countryController);
 
-        updateImageRoller(mainFragment.getImageViewFlagRoller());
+        fragmentController = new FragmentController(this, countryController, quizzController);
 
-        flagRollerHandler = new FlagRollerHandler(this);
-        flagRollerThread = new FlagRollerThread(flagRollerHandler);
-
-        mainFragment.getPlayButton().setClickable(true);
-
-        /*imageViewFlagRoller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flagRollerHandler.post(flagRollerThread);
-            }
-        });*/
-
-        mainFragment.getPlayButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentcontainer, quizzFragment);
-                fragmentTransaction.commit();
-
-                imageRoller = null;
-            }
-        });
-
-        flagRollerHandler.post(flagRollerThread);
+        fragmentController.showMainMenu();
 
         quizzController.newQuizz();
         quizzController.saveQuizz();
 
-        Quizz quizz = quizzController.getQuizz();
-
         Log.i("oui", "non");
-    }
-
-    public void updateImageRoller(ImageView imageViewFlagRoller) {
-        if(imageViewFlagRoller != null) {
-            int id = (int) (Math.random() * countryController.getSize());
-            imageViewFlagRoller.setImageBitmap(countryController.getCountryFlag(id));
-        }
     }
 
     private boolean checkPermissions() {
@@ -188,6 +124,5 @@ public class HomeActivity extends AppCompatActivity {
     public DatabaseController getDatabaseController() {
         return databaseController;
     }
-
 
 }

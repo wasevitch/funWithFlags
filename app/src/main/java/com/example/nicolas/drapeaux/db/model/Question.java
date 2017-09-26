@@ -70,7 +70,7 @@ public class Question implements Serializable {
         this.firstAnswer = firstAnswer;
     }
 
-    public Country getSecondAnwser() {
+    public Country getSecondAnswer() {
         return secondAnwser;
     }
 

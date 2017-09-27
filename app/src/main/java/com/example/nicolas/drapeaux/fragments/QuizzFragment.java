@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.nicolas.drapeaux.FragmentController;
 import com.example.nicolas.drapeaux.R;
@@ -26,6 +27,7 @@ public class QuizzFragment extends Fragment implements ProgressBarHandler {
     private Button buttonPays2;
     private Button buttonPays3;
     private Button buttonPays4;
+
 
     private ProgressBar progressBar;
 
@@ -72,11 +74,22 @@ public class QuizzFragment extends Fragment implements ProgressBarHandler {
             public void onClick(View v) {
                 Button button = (Button)v;
 
+
                 String countryName = button.getText().toString();
 
                 Country country = question.getCountryByName(countryName);
 
                 question.setPlayerAnwser(country);
+
+                if (question.getPlayerAnwser() ==question.getCountry()){
+                    Toast.makeText(getContext().getApplicationContext(),
+                            "Bonne réponse",
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getContext().getApplicationContext(),
+                            "Mauvaise réponse",
+                            Toast.LENGTH_SHORT).show();
+                }
 
                 progressHandler.setProgressBarHandler(null);
 

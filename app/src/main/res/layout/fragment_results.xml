@@ -14,7 +14,7 @@
             android:id="@+id/newQuizzButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.45"
             android:text="Take another quizz" />
 
         <Button

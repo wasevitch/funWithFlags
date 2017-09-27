@@ -74,6 +74,9 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="354dp"
         android:layout_height="16dp"
-        tools:layout_editor_absoluteY="352dp"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewImg4"
+        app:layout_constraintVertical_bias="0.285"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 </android.support.constraint.ConstraintLayout>

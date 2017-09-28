@@ -45,6 +45,11 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
         answerTextView.setText("Your answer: " + ((question.getPlayerAnwser() == null) ? " none" : question.getPlayerAnwser().getCountry()));
         correctTextView.setText("Correct answer: " + question.getCountry().getCountry());
 
+        if(question.getCountry() == question.getPlayerAnwser())
+            convertView.setBackgroundColor(Color.rgb(0x00, 0x88, 0x00));
+        else
+            convertView.setBackgroundColor(Color.rgb(0xFF, 0xAA, 0x00));
+
         return convertView;
     }
 }

@@ -9,74 +9,87 @@
 
     <Button
         android:id="@+id/buttonCountryToFind"
-        android:layout_width="282dp"
+        android:layout_width="0dp"
         android:layout_height="59dp"
-        android:layout_marginTop="6dp"
         android:text="@string/buttoncountrytofind"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="51dp"
+        android:layout_marginEnd="51dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginLeft="51dp"
+        android:layout_marginRight="51dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewImg1"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageViewImg4"
-        android:layout_width="134dp"
-        android:layout_height="126dp"
-        android:layout_marginTop="208dp"
+        android:layout_width="159dp"
+        android:layout_height="163dp"
         android:adjustViewBounds="false"
         android:baselineAlignBottom="false"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar2"
         app:layout_constraintLeft_toRightOf="@+id/imageViewImg3"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewImg2"
         app:srcCompat="@android:drawable/editbox_dropdown_light_frame"
-        tools:ignore="ContentDescription"
-        app:layout_constraintRight_toRightOf="parent" />
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/imageViewImg3"
-        android:layout_width="134dp"
-        android:layout_height="126dp"
-        android:layout_marginTop="208dp"
+        android:layout_width="159dp"
+        android:layout_height="163dp"
         android:contentDescription=""
+        android:verticalScrollbarPosition="right"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar2"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/imageViewImg4"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewImg1"
         app:srcCompat="@android:drawable/editbox_dropdown_light_frame"
-        tools:layout_constraintTop_creator="1"
-        tools:ignore="ContentDescription"
-        app:layout_constraintRight_toLeftOf="@+id/imageViewImg4" />
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/imageViewImg1"
-        android:layout_width="134dp"
-        android:layout_height="126dp"
+        android:layout_width="159dp"
+        android:layout_height="163dp"
         app:srcCompat="@android:drawable/editbox_dropdown_light_frame"
-        tools:layout_constraintTop_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="74dp"
         android:contentDescription=""
         tools:ignore="ContentDescription"
-        app:layout_constraintRight_toLeftOf="@+id/imageViewImg2" />
+        app:layout_constraintRight_toLeftOf="@+id/imageViewImg2"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewImg3"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCountryToFind" />
 
     <ImageView
         android:id="@+id/imageViewImg2"
-        android:layout_width="134dp"
-        android:layout_height="126dp"
-        android:layout_marginTop="74dp"
+        android:layout_width="159dp"
+        android:layout_height="163dp"
         android:adjustViewBounds="false"
         android:baselineAlignBottom="false"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewImg4"
         app:layout_constraintLeft_toRightOf="@+id/imageViewImg1"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCountryToFind"
         app:srcCompat="@android:drawable/editbox_dropdown_light_frame"
-        tools:ignore="ContentDescription"
-        app:layout_constraintRight_toRightOf="parent" />
+        tools:ignore="ContentDescription" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="354dp"
-        android:layout_height="16dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:minHeight="50dp"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginStart="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewImg4"
-        app:layout_constraintVertical_bias="0.285"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewImg4"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
 </android.support.constraint.ConstraintLayout>

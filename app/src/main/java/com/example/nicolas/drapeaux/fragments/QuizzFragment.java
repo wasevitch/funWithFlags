@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,13 +83,17 @@ public class QuizzFragment extends Fragment implements ProgressBarHandler {
                 question.setPlayerAnwser(country);
 
                 if (question.getPlayerAnwser() ==question.getCountry()){
-                    Toast.makeText(getContext().getApplicationContext(),
+               Toast t =Toast.makeText(getContext().getApplicationContext(),
                             "Bonne réponse",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT);
+                    t.setGravity(Gravity.TOP, 0,0);
+                       t.show();
                 }else {
-                    Toast.makeText(getContext().getApplicationContext(),
+                    Toast t = Toast.makeText(getContext().getApplicationContext(),
                             "Mauvaise réponse",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT);
+                    t.setGravity(Gravity.TOP, 0,0);
+                    t.show();
                 }
 
                 progressHandler.setProgressBarHandler(null);

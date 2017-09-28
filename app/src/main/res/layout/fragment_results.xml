@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,14 +16,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.45"
-            android:text="Take another quizz" />
+            android:text="@string/take_another_quizz"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/backToHomeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Back to home" />
+            android:text="@string/back_to_home"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 
@@ -31,7 +34,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="18sp" />
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="24sp"
+        tools:ignore="HardcodedText" />
 
     <ListView
         android:id="@+id/listQuestions"

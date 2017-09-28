@@ -21,4 +21,8 @@
     <string name="textview">TextView</string>
     <string name="activit_principale">activité principale</string>
     <string name="buttoncountrytofind">buttonCountryToFind</string>
+    <string name="ca_va">ca va</string>
+    <string name="coucou">coucou</string>
+    <string name="back_to_home">Back to home</string>
+    <string name="take_another_quizz">Take another quizz</string>
 </resources>

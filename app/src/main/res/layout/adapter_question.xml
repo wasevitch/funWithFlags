@@ -5,52 +5,54 @@
     android:layout_height="match_parent"
     tools:context="com.example.nicolas.drapeaux.fragments.ResultFragment"
     tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:layout_editor_absoluteX="20dp">
 
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:srcCompat="@mipmap/ic_launcher"
+        tools:ignore="ContentDescription"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="7dp"
         tools:layout_constraintLeft_creator="1"
+        app:layout_constraintDimensionRatio="h,1:1"
+        android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="1dp"
-        tools:ignore="ContentDescription" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="287dp"
-        android:layout_height="17dp"
+        android:layout_width="325dp"
+        android:layout_height="26dp"
         android:layout_alignTop="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"
-        android:text="coucou"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        android:text="@string/coucou"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         tools:ignore="RtlHardcoded"
-        tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginLeft="3dp" />
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="31dp" />
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="291dp"
-        android:layout_height="18dp"
+        android:layout_width="290dp"
+        android:layout_height="25dp"
         android:layout_alignLeft="@+id/textView"
         android:layout_below="@+id/textView"
-        android:text="ca va"
+        android:text="@string/ca_va"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         tools:ignore="RtlHardcoded"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="0dp" />
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="6dp" />
 
 </android.support.constraint.ConstraintLayout>

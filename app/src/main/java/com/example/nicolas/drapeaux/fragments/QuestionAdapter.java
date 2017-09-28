@@ -37,8 +37,8 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
         TextView answerTextView = (TextView)convertView.findViewById(R.id.textView);
         TextView correctTextView = (TextView)convertView.findViewById(R.id.textView1);
 
-        answerTextView.setTextColor(Color.BLACK);
-        correctTextView.setTextColor(Color.BLACK);
+        answerTextView.setTextColor(Color.WHITE);
+        correctTextView.setTextColor(Color.WHITE);
 
         imageView.setImageBitmap(BitmapFactory.decodeByteArray(question.getCountry().getImage(), 0, question.getCountry().getImage().length));
 
@@ -46,9 +46,9 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
         correctTextView.setText("Correct answer: " + question.getCountry().getCountry());
 
         if(question.getCountry() == question.getPlayerAnwser())
-            convertView.setBackgroundColor(Color.rgb(0x00, 0x88, 0x00));
+            convertView.setBackgroundColor(convertView.getResources().getColor(R.color.colorPrimary));
         else
-            convertView.setBackgroundColor(Color.rgb(0xFF, 0xAA, 0x00));
+            convertView.setBackgroundColor(convertView.getResources().getColor(R.color.colorAccent));
 
         return convertView;
     }

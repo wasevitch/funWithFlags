@@ -13,15 +13,15 @@
 
         <Button
             android:id="@+id/newQuizzButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.45"
+            android:layout_weight="1"
             android:text="@string/take_another_quizz"
             tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/backToHomeButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/back_to_home"

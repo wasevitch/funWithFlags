@@ -95,7 +95,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="37dp"
-            android:progressBackgroundTint="@android:color/holo_green_dark" />
+            tools:ignore="UnusedAttribute" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.nicolas.drapeaux;
+package com.example.nicolas.drapeaux.controller;
 
 import java.sql.SQLException;
 
@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.nicolas.drapeaux.R;
 import com.example.nicolas.drapeaux.db.model.Question;
 import com.example.nicolas.drapeaux.db.model.Country;
 import com.example.nicolas.drapeaux.db.model.Quizz;

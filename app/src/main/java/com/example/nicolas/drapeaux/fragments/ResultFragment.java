@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.nicolas.drapeaux.FragmentController;
-import com.example.nicolas.drapeaux.QuizzController;
+import com.example.nicolas.drapeaux.controller.FragmentController;
+import com.example.nicolas.drapeaux.controller.QuizzController;
 import com.example.nicolas.drapeaux.R;
 import com.example.nicolas.drapeaux.db.model.Question;
 

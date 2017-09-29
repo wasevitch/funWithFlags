@@ -8,6 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.nicolas.drapeaux.controller.CountryController;
+import com.example.nicolas.drapeaux.controller.DatabaseController;
+import com.example.nicolas.drapeaux.controller.FragmentController;
+import com.example.nicolas.drapeaux.controller.HttpHandler;
+import com.example.nicolas.drapeaux.controller.HttpThread;
+import com.example.nicolas.drapeaux.controller.QuizzController;
 
 import java.sql.SQLException;
 
@@ -20,7 +26,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private HttpHandler httpHandler;
     private HttpThread httpThread;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +55,14 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    /**@Override
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    }**/
+        quizzController = null;
+        databaseController = null;
+        fragmentController = null;
+        countryController = null;
+    }
 
     public void game() {
         initFlags();
@@ -122,10 +129,6 @@ public class HomeActivity extends AppCompatActivity {
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
 
         return true;
-    }
-
-    public DatabaseController getDatabaseController() {
-        return databaseController;
     }
 
 }

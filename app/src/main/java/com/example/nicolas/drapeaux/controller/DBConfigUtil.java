@@ -1,4 +1,4 @@
-package com.example.nicolas.drapeaux;
+package com.example.nicolas.drapeaux.controller;
 
 import android.database.SQLException;
 

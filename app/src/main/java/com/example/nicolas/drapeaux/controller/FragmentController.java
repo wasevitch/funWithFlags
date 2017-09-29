@@ -1,12 +1,13 @@
-package com.example.nicolas.drapeaux;
+package com.example.nicolas.drapeaux.controller;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.example.nicolas.drapeaux.HomeActivity;
+import com.example.nicolas.drapeaux.R;
 import com.example.nicolas.drapeaux.db.model.Question;
 import com.example.nicolas.drapeaux.fragments.MainFragment;
 import com.example.nicolas.drapeaux.fragments.QuizzFragment;

@@ -1,8 +1,6 @@
-package com.example.nicolas.drapeaux;
+package com.example.nicolas.drapeaux.controller;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
+import com.example.nicolas.drapeaux.db.model.SerialBitmap;
 import com.example.nicolas.drapeaux.db.model.Country;
 import com.j256.ormlite.dao.Dao;
 
@@ -16,7 +14,7 @@ public class CountryController implements Serializable {
 
     DatabaseController databaseController;
 
-    Map<String, Bitmap> countryFlags;
+    Map<String, SerialBitmap> countryFlags;
     List<Country> countries;
 
     public CountryController(DatabaseController databaseController) {
@@ -32,7 +30,7 @@ public class CountryController implements Serializable {
             countries = daoCountry.queryForAll();
 
             for(Country country : countries) {
-                Bitmap bitmap = getBitmapFromBytes(country.getImage());
+                SerialBitmap bitmap = getBitmapFromBytes(country.getImage());
                 countryFlags.put(country.getCountry(), bitmap);
             }
         } catch (SQLException e) {
@@ -40,7 +38,7 @@ public class CountryController implements Serializable {
         }
     }
 
-    public Bitmap getFlag(String countryCode) {
+    public SerialBitmap getFlag(String countryCode) {
         return countryFlags.get(countryCode);
     }
 
@@ -49,7 +47,7 @@ public class CountryController implements Serializable {
         return countries.get(entry);
     }
 
-    public Bitmap getCountryFlag(int entry) {
+    public SerialBitmap getCountryFlag(int entry) {
         Country country = getCountry(entry);
 
         if(country == null)
@@ -58,8 +56,8 @@ public class CountryController implements Serializable {
         return getFlag(country.getCountry());
     }
 
-    private Bitmap getBitmapFromBytes(byte[] data) {
-        return BitmapFactory.decodeByteArray(data, 0, data.length);
+    private SerialBitmap getBitmapFromBytes(byte[] data) {
+        return new SerialBitmap(data);
     }
 
     public int getSize() {

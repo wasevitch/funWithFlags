@@ -1,4 +1,4 @@
-package com.example.nicolas.drapeaux;
+package com.example.nicolas.drapeaux.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by Moi on 20/09/2017.
  */
-class HttpThread extends Thread {
+public class HttpThread extends Thread {
     private HttpHandler httpHandler;
 
     public HttpThread(HttpHandler handler) {

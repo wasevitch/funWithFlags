@@ -8,14 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.nicolas.drapeaux.CountryController;
-import com.example.nicolas.drapeaux.FlagRollerHandler;
-import com.example.nicolas.drapeaux.FlagRollerThread;
-import com.example.nicolas.drapeaux.FragmentController;
-import com.example.nicolas.drapeaux.QuizzController;
+import com.example.nicolas.drapeaux.controller.CountryController;
+import com.example.nicolas.drapeaux.controller.FragmentController;
+import com.example.nicolas.drapeaux.controller.QuizzController;
 import com.example.nicolas.drapeaux.R;
-import com.example.nicolas.drapeaux.db.model.Country;
-import com.example.nicolas.drapeaux.db.model.Question;
 
 public class MainFragment extends Fragment {
 
@@ -72,7 +68,7 @@ public class MainFragment extends Fragment {
     public void updateImageRoller(ImageView imageViewFlagRoller) {
         if(imageViewFlagRoller != null) {
             int id = (int) (Math.random() * countryController.getSize());
-            imageViewFlagRoller.setImageBitmap(countryController.getCountryFlag(id));
+            imageViewFlagRoller.setImageBitmap(countryController.getCountryFlag(id).getBitmap());
         }
     }
 

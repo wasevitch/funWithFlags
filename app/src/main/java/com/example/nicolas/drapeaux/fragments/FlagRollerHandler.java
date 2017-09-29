@@ -1,10 +1,11 @@
-package com.example.nicolas.drapeaux;
+package com.example.nicolas.drapeaux.fragments;
 
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.nicolas.drapeaux.R;
 import com.example.nicolas.drapeaux.fragments.MainFragment;
 
 public class FlagRollerHandler extends Handler {

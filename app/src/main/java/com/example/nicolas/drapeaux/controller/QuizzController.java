@@ -1,5 +1,7 @@
-package com.example.nicolas.drapeaux;
+package com.example.nicolas.drapeaux.controller;
 
+import com.example.nicolas.drapeaux.controller.CountryController;
+import com.example.nicolas.drapeaux.controller.DatabaseController;
 import com.example.nicolas.drapeaux.db.model.Question;
 import com.example.nicolas.drapeaux.db.model.Quizz;
 import com.j256.ormlite.dao.Dao;

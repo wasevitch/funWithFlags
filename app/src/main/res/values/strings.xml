@@ -25,4 +25,5 @@
     <string name="coucou">coucou</string>
     <string name="back_to_home">Back to home</string>
     <string name="take_another_quizz">Take another quizz</string>
+    <string name="buttonCountryToFind">Button</string>
 </resources>

@@ -33,7 +33,6 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
         }
 
         ImageView imageView = (ImageView)convertView.findViewById(R.id.imageView);
-
         TextView answerTextView = (TextView)convertView.findViewById(R.id.textView);
         TextView correctTextView = (TextView)convertView.findViewById(R.id.textView1);
 

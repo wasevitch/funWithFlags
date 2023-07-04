@@ -2,7 +2,7 @@
 # generated on 2017/09/25 11:39:41
 #
 # --table-start--
-dataClass=com.example.nicolas.drapeaux.db.model.Country
+dataClass=com.example.ouzin.drapeaux.db.model.Country
 tableName=countries
 # --table-fields-start--
 # --field-start--
@@ -17,7 +17,7 @@ dataPersister=BYTE_ARRAY
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.example.nicolas.drapeaux.db.model.Question
+dataClass=com.example.ouzin.drapeaux.db.model.Question
 tableName=question
 # --table-fields-start--
 # --field-start--
@@ -75,7 +75,7 @@ maxForeignAutoRefreshLevel=2
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.example.nicolas.drapeaux.db.model.Quizz
+dataClass=com.example.ouzin.drapeaux.db.model.Quizz
 tableName=quizz
 # --table-fields-start--
 # --field-start--
